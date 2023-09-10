@@ -249,6 +249,7 @@ double CardinalityEstimator::EstimateCardinalityWithSet(JoinRelationSet &new_set
 	if (denom == 0) {
 		denom = 1;
 	}
+	// [COUNT_MIN]: Cardinality is determined by cardinality estimate before filter and denominator
 	auto result = numerator / denom;
 	auto new_entry = CardinalityHelper((double)result, 1);
 	relation_set_2_cardinality[new_set.ToString()] = new_entry;
