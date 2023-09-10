@@ -36,6 +36,7 @@ struct GenerateJoinRelation {
 
 //! Filter info struct that is used by the cardinality estimator to set the initial cardinality
 //! but is also eventually transformed into a query edge.
+// [COUNT_MIN]: Filter info holding cardinality estimation
 struct FilterInfo {
 	FilterInfo(unique_ptr<Expression> filter, JoinRelationSet &set, idx_t filter_index)
 	    : filter(std::move(filter)), set(set), filter_index(filter_index) {

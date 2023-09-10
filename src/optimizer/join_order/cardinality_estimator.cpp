@@ -143,7 +143,7 @@ void FindSubgraphMatchAndMerge(Subgraph2Denominator &merge_to, idx_t find_me,
 
 template <>
 double CardinalityEstimator::EstimateCardinalityWithSet(JoinRelationSet &new_set) {
-
+	// [COUNT_MIN]: Estimate cardinality
 	if (relation_set_2_cardinality.find(new_set.ToString()) != relation_set_2_cardinality.end()) {
 		return relation_set_2_cardinality[new_set.ToString()].cardinality_before_filters;
 	}
@@ -153,6 +153,7 @@ double CardinalityEstimator::EstimateCardinalityWithSet(JoinRelationSet &new_set
 	for (idx_t i = 0; i < new_set.count; i++) {
 		auto &single_node_set = set_manager.GetJoinRelation(new_set.relations[i]);
 		auto card_helper = relation_set_2_cardinality[single_node_set.ToString()];
+		// [COUNT_MIN]: Cardinality before filters
 		numerator *= card_helper.cardinality_before_filters;
 		actual_set.insert(new_set.relations[i]);
 	}

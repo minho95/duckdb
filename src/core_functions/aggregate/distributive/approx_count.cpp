@@ -2,21 +2,26 @@
 #include "duckdb/common/exception.hpp"
 #include "duckdb/common/types/hash.hpp"
 #include "duckdb/common/types/hyperloglog.hpp"
+#include "duckdb/common/types/count_min_sketch.hpp"
 #include "duckdb/function/function_set.hpp"
 #include "duckdb/planner/expression/bound_aggregate_expression.hpp"
 
 namespace duckdb {
 
 struct ApproxDistinctCountState {
-	ApproxDistinctCountState() : log(nullptr) {
+	ApproxDistinctCountState() : log(nullptr), count_min_sketch(nullptr) {
 	}
 	~ApproxDistinctCountState() {
 		if (log) {
 			delete log;
 		}
+		if (count_min_sketch) {
+			delete count_min_sketch;
+		}
 	}
 
 	HyperLogLog *log;
+	CountMinSketch * count_min_sketch;
 };
 
 struct ApproxCountDistinctFunction {
