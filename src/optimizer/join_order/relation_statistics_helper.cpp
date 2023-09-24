@@ -82,6 +82,7 @@ RelationStats RelationStatisticsHelper::ExtractGetStats(LogicalGet &get, ClientC
 		if (get.function.statistics) {
 			column_statistics = get.function.statistics(context, get.bind_data.get(), get.column_ids[i]);
 			if (column_statistics && have_catalog_table_statistics) {
+				// [COUNT_MIN]: Column distinct count
 				auto column_distinct_count = DistinctCount({column_statistics->GetDistinctCount(), true});
 				return_stats.column_distinct_count.push_back(column_distinct_count);
 				return_stats.column_names.push_back(name + "." + get.names.at(get.column_ids.at(i)));

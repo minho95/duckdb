@@ -15,6 +15,7 @@ namespace duckdb {
 class CardinalityEstimator;
 
 struct DistinctCount {
+	// [COUNT_MIN] add count min counter 
 	idx_t distinct_count;
 	bool from_hll;
 };

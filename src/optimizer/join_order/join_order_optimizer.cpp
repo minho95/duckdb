@@ -59,6 +59,7 @@ unique_ptr<LogicalOperator> JoinOrderOptimizer::Optimize(unique_ptr<LogicalOpera
 	} else {
 		new_logical_plan = std::move(plan);
 		if (relation_stats.size() == 1) {
+			// [COUNT_MIN] use new counter here for optimizer
 			new_logical_plan->estimated_cardinality = relation_stats.at(0).cardinality;
 		}
 	}
@@ -73,6 +74,7 @@ unique_ptr<LogicalOperator> JoinOrderOptimizer::Optimize(unique_ptr<LogicalOpera
 
 	// Propagate up a stats object from the top of the new_logical_plan if stats exist.
 	if (stats) {
+		// [COUNT_MIN] add count min counter
 		auto cardinality = new_logical_plan->EstimateCardinality(context);
 		auto bindings = new_logical_plan->GetColumnBindings();
 		auto new_stats = RelationStatisticsHelper::CombineStatsOfReorderableOperator(bindings, relation_stats);
